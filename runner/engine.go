@@ -478,21 +478,6 @@ func (e *Engine) runPostCmd() error {
 	return nil
 }
 
-func (e *Engine) savePID(pid int) error {
-	pidFile := filepath.Join(e.config.tmpPath(), "pidfile")
-	return os.WriteFile(pidFile, []byte(fmt.Sprintf("%d", pid)), 0644)
-}
-func (e *Engine) getSavedPID() (int, error) {
-	pidFile := filepath.Join(e.config.tmpPath(), "pidfile")
-	data, err := os.ReadFile(pidFile)
-	if err != nil {
-		return 0, err
-	}
-	var pid int
-	_, err = fmt.Sscanf(string(data), "%d", &pid)
-	return pid, err
-}
-
 func (e *Engine) runBin() error {
 	killFunc := func(cmd *exec.Cmd, stdout io.ReadCloser, stderr io.ReadCloser, killCh chan struct{}, processExit chan struct{}) {
 		select {
